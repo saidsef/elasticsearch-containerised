@@ -3,7 +3,7 @@ MAINTAINER Said Sef <saidsef@gmail.com> (saidsef.co.uk)
 
 ENV cluster.name=spot
 ENV node.name=ec2
-ENV ES_JAVA_OPTS="-Xms750m -Xmx1g -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75"
+ENV ES_JAVA_OPTS="-Xms750m -Xmx1g -XX:CMSInitiatingOccupancyFraction=75"
 ENV bootstrap.memory_lock=true
 ENV discovery.type=single-node
 ENV xpack.security.enabled=false
