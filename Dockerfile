@@ -15,6 +15,7 @@ ENV xpack.ml.enabled=true
 ENV http.compression=true
 ENV http.compression_level=9
 ENV http.cors.enabled=true
+ENV node.ingest=true
 
 RUN cd /usr/share/elasticsearch \
     && bin/elasticsearch-plugin install -b repository-s3 \
