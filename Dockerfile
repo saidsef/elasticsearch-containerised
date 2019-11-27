@@ -18,13 +18,14 @@ ENV http.cors.enabled=true
 ENV node.ingest=true
 
 RUN cd /usr/share/elasticsearch \
-    && bin/elasticsearch-plugin install -b repository-s3 \
-    && bin/elasticsearch-plugin install -b discovery-ec2 \
-    && bin/elasticsearch-plugin install -b mapper-size \
-    && bin/elasticsearch-plugin install -b mapper-murmur3 \
-    && bin/elasticsearch-plugin install -b mapper-annotated-text \
-    && bin/elasticsearch-plugin install -b ingest-attachment \
     && bin/elasticsearch-plugin install -b analysis-icu \
-    && bin/elasticsearch-plugin install -b analysis-phonetic
+    && bin/elasticsearch-plugin install -b analysis-phonetic \
+    && bin/elasticsearch-plugin install -b discovery-ec2 \
+    && bin/elasticsearch-plugin install -b discovery-file \
+    && bin/elasticsearch-plugin install -b ingest-attachment \
+    && bin/elasticsearch-plugin install -b mapper-annotated-text \
+    && bin/elasticsearch-plugin install -b mapper-murmur3 \
+    && bin/elasticsearch-plugin install -b mapper-size \
+    && bin/elasticsearch-plugin install -b repository-s3
 
 USER elasticsearch
