@@ -1,5 +1,5 @@
 name: Docker Image CI
-on: [push]
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,7 +12,6 @@ jobs:
           echo deb https://aquasecurity.github.io/trivy-repo/deb bionic main | sudo tee -a /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
           sudo apt-get install -y trivy
-          docker version
-          docker
-          docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:latest .
+          # GitHub Action doesn't support docker experimental features
+          # docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:latest .
           trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:latest
