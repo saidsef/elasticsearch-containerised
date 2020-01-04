@@ -14,5 +14,5 @@ jobs:
           sudo apt-get install -y trivy
           docker version
           docker
-          docker build . --file Dockerfile --tag saidsef/elasticsearch:latest
+          docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:latest .
           trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:latest
