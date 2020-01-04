@@ -1,5 +1,6 @@
-FROM elasticsearch:6.8.5
-MAINTAINER Said Sef <saidsef@gmail.com> (saidsef.co.uk)
+FROM elasticsearch:6.8.6
+
+LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 
 ENV cluster.name=spot
 ENV node.name=ec2
