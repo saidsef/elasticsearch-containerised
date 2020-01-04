@@ -12,5 +12,7 @@ jobs:
           echo deb https://aquasecurity.github.io/trivy-repo/deb bionic main | sudo tee -a /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
           sudo apt-get install -y trivy
+          docker version
+          docker
           docker build . --file Dockerfile --tag saidsef/elasticsearch:latest
           trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:latest
