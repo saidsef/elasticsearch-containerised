@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch
+  labels:
+    name: elasticsearch
+    app: elasticsearch
+spec:
+  serviceName: "elasticsearch"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9200"
+        prometheus.io/path: "_prometheus/metrics"
+      labels:
+        name: elasticsearch
+        app: elasticsearch
+    spec:
+      initContainers:
+        - name: volume-mount-fix
+          image: busybox
+          command: ["sh", "-c", "chmod -R 777 /usr/share/elasticsearch/data"]
+          volumeMounts:
+            - name: elasticsearch-storage
+              mountPath: /usr/share/elasticsearch/data
+      containers:
+        - image: saidsef/elasticsearch
+          name: elasticsearch
+          ports:
+            - protocol: TCP
+              containerPort: 9200
+              name: elasticsearch
+            - protocol: TCP
+              containerPort: 9300
+              name: cluster
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - java
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              port: 9200
+              path: _cat/health
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command: [""]
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "250m"
+            limits:
+              memory: "2048Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: elasticsearch-storage
+              mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: elasticsearch-storage
+          hostPath:
+            path: /mnt/es
+            type: DirectoryOrCreate

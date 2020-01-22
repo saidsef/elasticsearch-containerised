@@ -2,6 +2,7 @@ FROM elasticsearch:6.8.6
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 
+ENV version 6.8.6
 ENV cluster.name=spot
 ENV node.name=ec2
 ENV ES_JAVA_OPTS="-Xms750m -Xmx1g -XX:CMSInitiatingOccupancyFraction=75"
@@ -27,6 +28,7 @@ RUN cd /usr/share/elasticsearch \
     && bin/elasticsearch-plugin install -b mapper-annotated-text \
     && bin/elasticsearch-plugin install -b mapper-murmur3 \
     && bin/elasticsearch-plugin install -b mapper-size \
-    && bin/elasticsearch-plugin install -b repository-s3
+    && bin/elasticsearch-plugin install -b repository-s3 \
+    && bin/elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${version}.0/prometheus-exporter-${version}.0.zip
 
 USER elasticsearch
