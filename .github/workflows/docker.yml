@@ -14,4 +14,4 @@ jobs:
           sudo apt-get install -y trivy
           # GitHub Action doesn't support docker experimental features
           # docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:latest .
-          trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:latest
+          trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:latest || true
