@@ -4,9 +4,9 @@ Elasticsearch is a distributed, RESTful search and analytics engine capable of s
 
 >This default distribution is governed by the Elastic License, and includes the [full set of free features](https://www.elastic.co/subscriptions).
 
-This will run Elasticsearch in a single node via `env` variable baked into the container, we can run the container service via `docker run` command.
+This will run Elasticsearch in a single node via `env` variable baked into the container, we can run the container service via `docker run` command or `kubectl apply -k deployment/`.
 
-## Plugins list
+## Installed Plugins list
  - repository-s3
  - discovery-ec2
  - mapper-size
