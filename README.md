@@ -7,11 +7,13 @@ Elasticsearch is a distributed, RESTful search and analytics engine capable of s
 This will run Elasticsearch in a single node via `env` variable baked into the container, we can run the container service via `docker run` command or `kubectl apply -k deployment/`.
 
 ## Installed Plugins list
- - repository-s3
- - discovery-ec2
- - mapper-size
- - mapper-murmur3
- - mapper-annotated-text
- - ingest-attachment
- - analysis-icu
- - analysis-phonetic
+
+- repository-s3
+- discovery-ec2
+- mapper-size
+- mapper-murmur3
+- mapper-annotated-text
+- ingest-attachment
+- analysis-icu
+- analysis-phonetic
+- prometheus-exporter
