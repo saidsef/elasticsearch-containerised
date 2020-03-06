@@ -1,5 +1,15 @@
-name: Docker Image CI
-on: [push, pull_request]
+name: ES Docker Image CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: '0 9 * * *'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,4 +24,5 @@ jobs:
           sudo apt-get install -y trivy
           # GitHub Action doesn't support docker experimental features
           # docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:latest .
+          docker build -t saidsef/elasticsearch:latest .
           trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:latest || true
