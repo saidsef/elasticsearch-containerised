@@ -23,11 +23,17 @@ spec:
         app: elasticsearch
     spec:
       # hostNetwork: true
-      tolerations:
-        - key: "kubernetes.io/arch"
-          value: "amd64"
-          operator: "Exists"
-          effect: "NoSchedule"
+      hostNetwork: true
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: "kubernetes.io/arch"
+                    operator: "In"
+                    values:
+                      - "amd64"
+              weight: 1
       initContainers:
         - name: volume-mount-fix
           image: busybox
