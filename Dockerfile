@@ -28,7 +28,6 @@ RUN cd /usr/share/elasticsearch \
     && bin/elasticsearch-plugin install -b mapper-annotated-text \
     && bin/elasticsearch-plugin install -b mapper-murmur3 \
     && bin/elasticsearch-plugin install -b mapper-size \
-    && bin/elasticsearch-plugin install -b repository-s3 \
-    && bin/elasticsearch-plugin install -b https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/${version}.0/prometheus-exporter-${version}.0.zip
+    && bin/elasticsearch-plugin install -b repository-s3
 
 USER elasticsearch
