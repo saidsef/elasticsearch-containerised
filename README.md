@@ -16,4 +16,3 @@ This will run Elasticsearch in a single node via `env` variable baked into the c
 - ingest-attachment
 - analysis-icu
 - analysis-phonetic
-- prometheus-exporter
