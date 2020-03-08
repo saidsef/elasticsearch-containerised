@@ -16,14 +16,15 @@ spec:
     metadata:
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "9200"
-        prometheus.io/path: "_prometheus/metrics"
+        prometheus.io/port: "9114"
+        prometheus.io/path: "/metrics"
       labels:
         name: elasticsearch
         app: elasticsearch
     spec:
       # hostNetwork: true
       hostNetwork: true
+      shareProcessNamespace: true
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -42,6 +43,13 @@ spec:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
       containers:
+        - image: justwatch/elasticsearch_exporter:1.1.0
+          name: prometheus
+          command: ["--es.uri=http://localhost:9200", "--es.snapshots=true"]
+          ports:
+            - protocol: TCP
+              containerPort: 9114
+              name: prometheus
         - image: saidsef/elasticsearch
           name: elasticsearch
           ports:
