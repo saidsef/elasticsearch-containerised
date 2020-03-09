@@ -39,12 +39,14 @@ spec:
       initContainers:
         - name: volume-mount-fix
           image: busybox
+          imagePullPolicy: Always
           command: ["sh", "-c", "chmod -R 777 /usr/share/elasticsearch/data"]
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
       containers:
         - image: saidsef/elasticsearch
+          imagePullPolicy: Always
           name: elasticsearch
           ports:
             - protocol: TCP
@@ -85,6 +87,7 @@ spec:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
         - image: justwatch/elasticsearch_exporter:1.1.0
+          imagePullPolicy: IfNotPresent
           name: prometheus
           args:
           - '--es.uri=http://localhost:9200'
