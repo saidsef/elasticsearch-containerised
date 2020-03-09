@@ -2,7 +2,6 @@ FROM elasticsearch:6.8.7
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 
-ENV version 6.8.7
 ENV cluster.name=spot
 ENV node.name=ec2
 ENV ES_JAVA_OPTS="-Xms750m -Xmx1g -XX:CMSInitiatingOccupancyFraction=75"
