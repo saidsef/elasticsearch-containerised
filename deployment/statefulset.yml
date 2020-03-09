@@ -8,6 +8,7 @@ metadata:
     app: elasticsearch
 spec:
   serviceName: "elasticsearch"
+  podManagementPolicy: "Parallel"
   replicas: 1
   selector:
     matchLabels:
@@ -23,8 +24,8 @@ spec:
         app: elasticsearch
     spec:
       # hostNetwork: true
-      hostNetwork: true
       shareProcessNamespace: true
+      terminationGracePeriodSeconds: 60
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -43,13 +44,6 @@ spec:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
       containers:
-        - image: justwatch/elasticsearch_exporter:1.1.0
-          name: prometheus
-          command: ["--es.uri=http://localhost:9200", "--es.snapshots=true"]
-          ports:
-            - protocol: TCP
-              containerPort: 9114
-              name: prometheus
         - image: saidsef/elasticsearch
           name: elasticsearch
           ports:
@@ -64,18 +58,18 @@ spec:
               command:
                 - pgrep
                 - java
-            initialDelaySeconds: 3
+            initialDelaySeconds: 10
             periodSeconds: 3
             successThreshold: 1
-            timeoutSeconds: 2
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               port: 9200
               path: _cat/health
-            initialDelaySeconds: 5
+            initialDelaySeconds: 30
             periodSeconds: 5
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 5
           # lifecycle:
           #   postStart:
           #     exec:
@@ -90,6 +84,41 @@ spec:
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
+        - image: justwatch/elasticsearch_exporter:1.1.0
+          name: prometheus
+          args:
+          - '--es.uri=http://localhost:9200'
+          - '--es.all'
+          - '--es.indices'
+          - '--es.snapshots'
+          ports:
+            - protocol: TCP
+              containerPort: 9114
+              name: prometheus
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - elasticsearch_exporter
+            initialDelaySeconds: 10
+            periodSeconds: 3
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 9114
+              path: /health
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "512Mi"
+              cpu: "100m"
       volumes:
         - name: elasticsearch-storage
           hostPath:
