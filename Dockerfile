@@ -1,4 +1,4 @@
-FROM elasticsearch:6.8.7
+FROM elasticsearch:6.8.8
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 
