@@ -83,6 +83,9 @@ spec:
             limits:
               memory: "3072Mi"
               cpu: "500m"
+          securityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
