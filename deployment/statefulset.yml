@@ -45,7 +45,7 @@ spec:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
       containers:
-        - image: saidsef/elasticsearch:latest
+        - image: docker.io/saidsef/elasticsearch:master
           imagePullPolicy: Always
           name: elasticsearch
           ports:
@@ -97,7 +97,7 @@ spec:
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
-        - image: justwatch/elasticsearch_exporter:1.1.0
+        - image: docker.io/justwatch/elasticsearch_exporter:1.1.0
           imagePullPolicy: IfNotPresent
           name: prometheus
           args:
