@@ -1,5 +1,4 @@
 name: ES Docker Image CI
-
 on:
   push:
     branches:
@@ -9,13 +8,12 @@ on:
       - master
   schedule:
     - cron: '0 9 * * *'
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build Docker image
+    - name: Build Docker Image
       run: |
           sudo apt-get install wget apt-transport-https gnupg
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
@@ -23,7 +21,7 @@ jobs:
           sudo apt-get update
           sudo apt-get upgrade -yq
           sudo apt-get install -y trivy
-          # GitHub Action doesn't support docker experimental features
+          # GitHub Action doesn't support docker experimental features yet!
           # docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:${GITHUB_REF##*/} .
           docker build -t saidsef/elasticsearch:${GITHUB_REF##*/} .
           trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL saidsef/elasticsearch:${GITHUB_REF##*/} || true
