@@ -7,7 +7,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '0 09 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
           wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
           echo deb https://aquasecurity.github.io/trivy-repo/deb bionic main | sudo tee -a /etc/apt/sources.list.d/trivy.list
           sudo apt-get update
-          sudo apt-get upgrade -yq
+          # sudo apt-get upgrade -yq
           sudo apt-get install -y trivy
           # GitHub Action doesn't support docker experimental features yet!
           # docker builder build --platform linux/amd64,linux/arm64,linux/arm/v7 -t saidsef/elasticsearch:${GITHUB_REF##*/} .
