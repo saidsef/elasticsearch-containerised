@@ -4,7 +4,7 @@ LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 
 ENV cluster.name=spot
 ENV node.name=ec2
-ENV ES_JAVA_OPTS="-Xms2g -Xmx3g -XX:CMSInitiatingOccupancyFraction=75"
+ENV ES_JAVA_OPTS="-Xms2g -Xmx3g"
 ENV bootstrap.memory_lock=true
 ENV discovery.type=single-node
 ENV xpack.security.enabled=false
