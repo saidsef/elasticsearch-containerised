@@ -1,10 +1,10 @@
-FROM elasticsearch:6.8.11
+FROM elasticsearch:6.8.12
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 
 ENV cluster.name=spot
 ENV node.name=ec2
-ENV ES_JAVA_OPTS="-Xms2g -Xmx3g"
+ENV ES_JAVA_OPTS="-Xms2g -Xmx4g"
 ENV bootstrap.memory_lock=true
 ENV discovery.type=single-node
 ENV xpack.security.enabled=false
