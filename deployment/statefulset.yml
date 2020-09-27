@@ -38,12 +38,22 @@ spec:
               weight: 1
       initContainers:
         - name: volume-mount-fix
-          image: busybox
+          image: busybox:1
           imagePullPolicy: Always
           command: ["sh", "-c", "chmod -R 777 /usr/share/elasticsearch/data"]
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            runAsGroup: 1000
+            runAsUser: 1000
+            capabilities:
+             drop:
+               - ALL
+             add:
+               - CHOWN
       containers:
         - image: docker.io/saidsef/elasticsearch:master
           imagePullPolicy: Always
