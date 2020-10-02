@@ -14,11 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Docker Image and Scan with trivy
-      run: docker build -t saidsef/elasticsearch:${GITHUB_REF##*/} .
+      run: docker build -t saidsef/elasticsearch:${{ github.ref }} .
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'docker.io/saidsef/elasticsearch:${GITHUB_REF##*/}'
+        image-ref: docker.io/saidsef/elasticsearch:${{ github.ref }}
         format: 'template'
         template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
@@ -35,4 +35,4 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: saidsef/elasticsearch:${GITHUB_REF##*/}
+        tags: saidsef/elasticsearch:${{ github.ref }}
