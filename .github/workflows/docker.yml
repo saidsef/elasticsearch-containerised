@@ -14,13 +14,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Set Tag Name
+      run: |
+        echo "TAG=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
     - name: Build docker image
       run: |
-        docker build -t saidsef/elasticsearch:${{ github.head_ref }} .
+        docker build -t saidsef/elasticsearch:${{ env.TAG }} .
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: docker.io/saidsef/elasticsearch:${{ github.head_ref }}
+        image-ref: docker.io/saidsef/elasticsearch:${{ env.TAG }}
         format: 'template'
         template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
@@ -35,4 +38,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build docker image
       run: |
-        docker push saidsef/elasticsearch:${{ github.head_ref }}
+        docker push saidsef/elasticsearch:${{ env.TAG }}
