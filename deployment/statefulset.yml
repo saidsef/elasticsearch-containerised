@@ -23,7 +23,6 @@ spec:
         name: elasticsearch
         app: elasticsearch
     spec:
-      # hostNetwork: true
       shareProcessNamespace: true
       terminationGracePeriodSeconds: 60
       affinity:
@@ -82,10 +81,6 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             timeoutSeconds: 5
-          # lifecycle:
-          #   postStart:
-          #     exec:
-          #       command: [""]
           resources:
             requests:
               memory: "2048Mi"
