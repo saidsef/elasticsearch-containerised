@@ -102,7 +102,7 @@ spec:
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
-        - image: docker.io/justwatch/elasticsearch_exporter:1.1.0
+        - image: docker.io/bitnami/elasticsearch-exporter:1.1.0
           imagePullPolicy: IfNotPresent
           name: prometheus
           args:
@@ -110,6 +110,7 @@ spec:
           - '--es.all'
           - '--es.indices'
           - '--es.snapshots'
+          - '--es.shards'
           ports:
             - protocol: TCP
               containerPort: 9114
