@@ -1,0 +1,29 @@
+name: "Create Release"
+on:
+  schedule:
+    - cron: '55 23 28 */1 *'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.ref, 'master') && github.event_name != 'schedule' }}
+    steps:
+      - name: Set Tag Value
+        run: |
+          echo "DATE=v$(echo `date +'%Y.%m'`)" >> $GITHUB_ENV
+      - name: Create Release
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const { repo: { owner, repo }, sha } = context;
+            const tag = process.env.DATE;
+            try {
+              await github.repos.createRelease({
+                owner, repo,
+                tag_name: tag,
+                prerelease: false
+              });
+            } catch (e) {
+              console.log("Release already exists: " + e);
+            }
