@@ -33,7 +33,7 @@ jobs:
         DOCKER_BUILDKIT: 1
       with:
         context: .
-        push: false
+        push: true
         tags: docker.io/saidsef/elasticsearch:${{ env.TAG }}
     - name: Build and push Docker image - tag
       uses: docker/build-push-action@v2
@@ -42,7 +42,7 @@ jobs:
         DOCKER_BUILDKIT: 1
       with:
         context: .
-        push: false
+        push: true
         tags: docker.io/saidsef/elasticsearch:${{ env.DATE }}
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
