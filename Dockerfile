@@ -1,6 +1,7 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.18
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
+LABEL description="Elasticsearch with plugins"
 
 ENV bootstrap.memory_lock=true
 ENV cluster.name=spot
