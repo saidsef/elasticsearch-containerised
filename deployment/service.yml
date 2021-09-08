@@ -14,8 +14,8 @@ spec:
     - port: 9200
       protocol: TCP
       targetPort: 9200
-      name: elasticsearch
+      name: http-elasticsearch
     - port: 9300
       protocol: TCP
       targetPort: 9300
-      name: cluster
+      name: tcp-cluster
