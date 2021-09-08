@@ -1,2 +1,5 @@
 # files and/or folders to ginore
 .git/
+.github/
+deployment/
+*.md
