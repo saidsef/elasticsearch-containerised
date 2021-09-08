@@ -7,9 +7,9 @@ resources:
 - service.yml
 
 images:
-  - name: elasticsearch
-    newName: docker.io/saidsef/elasticsearch
-    newTag: master
-  - name: prometheus
-    newName: docker.io/bitnami/elasticsearch-exporter
-    newTag: 1.1.0
+- name: elasticsearch
+  newName: docker.io/saidsef/elasticsearch
+  newTag: master
+- name: prometheus
+  newName: docker.io/bitnami/elasticsearch-exporter
+  newTag: 1.1.0
