@@ -6,12 +6,14 @@ on:
     paths:
       - "Dockerfile"
       - "conf/**"
+      - ".dockerignore"
   pull_request:
     branches:
       - master
     paths:
       - "Dockerfile"
       - "conf/**"
+      - ".dockerignore"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,27 +29,31 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build and push Docker image - branch
+    - name: Build and push Docker image - (TAG)
       uses: docker/build-push-action@v2
       env:
         DOCKER_BUILDKIT: 1
       with:
         context: .
+        file: ./Dockerfile
+        pull: true
         push: true
-        tags: docker.io/saidsef/elasticsearch:${{ env.TAG }}
-    - name: Build and push Docker image - tag
+        tags: docker.io/saidsef/elasticsearch:${{ env.TAG == 'master' && 'latest' || env.TAG }}
+    - name: Build and push Docker image - (DATE)
       uses: docker/build-push-action@v2
       if: ${{ contains(github.ref, 'master') }}
       env:
         DOCKER_BUILDKIT: 1
       with:
         context: .
+        file: ./Dockerfile
+        pull: true
         push: true
         tags: docker.io/saidsef/elasticsearch:${{ env.DATE }}
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: docker.io/saidsef/elasticsearch:${{ env.TAG }}
+        image-ref: docker.io/saidsef/elasticsearch:${{ env.TAG == 'master' && 'latest' || env.TAG }}
         format: 'template'
         template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
@@ -75,3 +81,32 @@ jobs:
           kubectl create namespace $NS
           kubectl kustomize deployment/ | kubectl apply -n $NS -f - 
           kubectl get all -n $NS
+
+  auto-approve:
+    runs-on: ubuntu-latest
+    needs: [build, k8s-test]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - uses: hmarr/auto-approve-action@v2
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  auto-merge-pr:
+    runs-on: ubuntu-latest
+    needs: [build, k8s-test, auto-approve]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Auto merge PR
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ github.token }}
+        script: |
+          await github.pulls.merge({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: github.event.number
+          });
