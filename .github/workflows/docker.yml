@@ -105,7 +105,6 @@ jobs:
       with:
         github-token: ${{ github.token }}
         script: |
-          const core = require('@actions/core')
           const pull_request_number = context.payload.number;
 
           await github.pulls.merge({
