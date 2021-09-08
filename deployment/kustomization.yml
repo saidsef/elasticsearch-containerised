@@ -9,7 +9,7 @@ resources:
 images:
 - name: elasticsearch
   newName: docker.io/saidsef/elasticsearch
-  newTag: master
+  newTag: latest
 - name: prometheus
   newName: docker.io/bitnami/elasticsearch-exporter
   newTag: 1.1.0
