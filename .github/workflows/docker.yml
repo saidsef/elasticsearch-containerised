@@ -108,5 +108,5 @@ jobs:
           await github.pulls.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            pull_number: github.event.number
+            pull_number: github.event.pull_request.number
           });
