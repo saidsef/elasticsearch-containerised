@@ -6,6 +6,7 @@ on:
       - K8sTest
     types:
       - completed
+      - requested
   workflow_dispatch:
 
 jobs:
