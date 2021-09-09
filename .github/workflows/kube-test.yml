@@ -1,4 +1,4 @@
-name: K8sTest
+name: Test
 on:
   workflow_run:
     workflows:
