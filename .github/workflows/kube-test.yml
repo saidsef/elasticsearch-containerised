@@ -5,6 +5,7 @@ on:
       - CI
     types:
       - completed
+      - requested
   workflow_dispatch:
 
 jobs:
