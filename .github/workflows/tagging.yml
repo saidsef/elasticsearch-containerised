@@ -9,9 +9,6 @@ on:
       - completed
   workflow_dispatch:
 
-env:
-  COMMIT_MSG: ${{ github.event.head_commit.message }}
-
 jobs:
   tagging:
     runs-on: ubuntu-latest
@@ -21,10 +18,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Fetch remote tags
         run: git fetch origin +refs/tags/*:refs/tags/*
-      - name: Set Tag Value
+      - name: Set Tag Values
         run: |
           echo "DATE=v$(echo `date +'%Y.%m'`)" >> $GITHUB_ENV
-          echo "CHANGELOG=`git log --oneline $(git describe --tags v2021.08 --abbrev=0 @^ | head -n 1)..@`" >> $GITHUB_ENV
+          echo "CHANGELOG=`git log --oneline $(git describe --tags v$(echo `date +'%Y.%m'`) --abbrev=0 @^ | head -n 1)..@`" >> $GITHUB_ENV
       - name: Create Tag
         uses: actions/github-script@v4
         if: ${{ env.DATE }}

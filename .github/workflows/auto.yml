@@ -1,5 +1,8 @@
 name: Auto
 on:
+  pull_request:
+    branches:
+      - master
   workflow_run:
     workflows:
       - CI
@@ -10,7 +13,7 @@ on:
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' }} && ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
@@ -20,7 +23,7 @@ jobs:
 
   auto-merge-pr:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' }} && ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
@@ -29,8 +32,6 @@ jobs:
       with:
         github-token: ${{ github.token }}
         script: |
-          const pull_request_number = context.payload.number;
-
           await github.repos.merge({
             owner: context.repo.owner,
             repo: context.repo.repo,
