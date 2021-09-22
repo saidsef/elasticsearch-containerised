@@ -1,24 +1,32 @@
 name: Tagging
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "deployment/*"
   workflow_run:
     workflows:
       - CI
-    branches:
-      - master
     types:
       - completed
+    branch:
+      - main
   workflow_dispatch:
+
+env:
+  COMMIT_MSG: ${{ github.event.head_commit.message }}
 
 jobs:
   tagging:
     runs-on: ubuntu-latest
-    if: ${{ contains(github.ref, 'master') }}
+    if: ${{ contains(github.ref, 'main') }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Fetch remote tags
         run: git fetch origin +refs/tags/*:refs/tags/*
-      - name: Set Tag Values
+      - name: Set Tag Value
         run: |
           echo "DATE=v$(echo `date +'%Y.%m'`)" >> $GITHUB_ENV
           echo "CHANGELOG=`git log --oneline $(git describe --tags v$(echo `date +'%Y.%m'`) --abbrev=0 @^ | head -n 1)..@`" >> $GITHUB_ENV
