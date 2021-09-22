@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.18
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.19
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 LABEL description="Elasticsearch with plugins"
@@ -6,7 +6,7 @@ LABEL description="Elasticsearch with plugins"
 ENV bootstrap.memory_lock=true
 ENV cluster.name=spot
 ENV discovery.type=single-node
-ENV ES_JAVA_OPTS="-Xms2g -Xmx4g"
+ENV ES_JAVA_OPTS="-Xms3g -Xmx3g"
 ENV http.compression_level=9
 ENV http.compression=true
 ENV http.cors.enabled=true
