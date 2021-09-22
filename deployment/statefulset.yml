@@ -54,7 +54,7 @@ spec:
              add:
                - CHOWN
       containers:
-        - image: docker.io/saidsef/elasticsearch:master
+        - image: docker.io/saidsef/elasticsearch:latest
           imagePullPolicy: Always
           name: elasticsearch
           ports:
@@ -83,7 +83,7 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              memory: "3Gi"
+              memory: "4Gi"
               cpu: "250m"
             limits:
               memory: "4Gi"
