@@ -12,12 +12,15 @@ ENV http.compression=true
 ENV http.cors.enabled=true
 ENV node.ingest=true
 ENV node.name=ec2
+ENV logger.discovery.level=warn
+ENV logger.deprecation.level=warn
 ENV xpack.graph.enabled=true
 ENV xpack.ml.enabled=true
 ENV xpack.monitoring.collection.enabled=true
 ENV xpack.monitoring.enabled=true
 ENV xpack.security.enabled=false
 ENV xpack.watcher.enabled=true
+ENV xpack.monitoring.exporters.default_local.type=local
 
 RUN cd /usr/share/elasticsearch \
     && bin/elasticsearch-plugin install -b analysis-icu \
