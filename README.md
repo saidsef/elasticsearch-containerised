@@ -16,3 +16,13 @@ This will run Elasticsearch in a single node via `env` variable baked into the c
 - ingest-attachment
 - analysis-icu
 - analysis-phonetic
+
+## Source
+
+Our latest and greatest source of Jenkins can be found on [GitHub]. Fork us!
+
+## Contributing
+
+We would :heart:  you to contribute by making a [pull request](https://github.com/saidsef/elasticsearch-containerised/pulls).
+
+Please read the official [Contribution Guide](./CONTRIBUTING.md) for more information on how you can contribute.
