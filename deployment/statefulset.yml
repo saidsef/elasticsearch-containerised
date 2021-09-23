@@ -102,7 +102,7 @@ spec:
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
-        - image: docker.io/bitnami/elasticsearch-exporter:1.1.0
+        - image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
           imagePullPolicy: IfNotPresent
           name: prometheus
           args:
