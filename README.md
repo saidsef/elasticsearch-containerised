@@ -19,7 +19,7 @@ This will run Elasticsearch in a single node via `env` variable baked into the c
 
 ## Source
 
-Our latest and greatest source of Jenkins can be found on [GitHub]. Fork us!
+Our latest and greatest source of Jenkins can be found on [GitHub](./). Fork us!
 
 ## Contributing
 
