@@ -1,12 +1,10 @@
 name: Release
 on:
-  schedule:
-    - cron: '55 23 28 */1 *'
   workflow_run:
     workflows:
       - Tagging
     branches:
-      - master
+      - main
     types:
       - completed
   workflow_dispatch:
