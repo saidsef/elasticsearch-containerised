@@ -11,5 +11,5 @@ images:
   newName: docker.io/saidsef/elasticsearch
   newTag: latest
 - name: prometheus
-  newName: docker.io/bitnami/elasticsearch-exporter
-  newTag: "1.1.0"
+  newName: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+  newTag: latest
