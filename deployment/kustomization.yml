@@ -11,7 +11,7 @@ images:
   newName: docker.io/saidsef/elasticsearch
   newTag: latest
 - name: prometheus
-  newName: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+  newName: quay.io/prometheuscommunity/elasticsearch-exporter
   newTag: latest
 - name: busybox
   newName: docker.io/busybox
