@@ -43,9 +43,10 @@ spec:
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
+              subPath: data
           securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
+            allowPrivilegeEscalation: true
+            privileged: true
             runAsGroup: 1000
             runAsUser: 1000
             capabilities:
@@ -53,7 +54,6 @@ spec:
                - ALL
              add:
                - CHOWN
-               - CHMOD
       containers:
         - image: docker.io/saidsef/elasticsearch:latest
           imagePullPolicy: Always
@@ -103,6 +103,7 @@ spec:
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
+              subPath: data
         - image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
           imagePullPolicy: IfNotPresent
           name: prometheus
