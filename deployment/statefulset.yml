@@ -39,7 +39,7 @@ spec:
         - name: volume-mount-fix
           image: docker.io/busybox:stable
           imagePullPolicy: Always
-          command: ["sh", "-c", "chmod -R 777 /usr/share/elasticsearch/data"]
+          command: ["sh", "-c", "/bin/chmod -R 777 /usr/share/elasticsearch/data"]
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
