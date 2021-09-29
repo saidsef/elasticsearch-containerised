@@ -35,25 +35,6 @@ spec:
                     values:
                       - "amd64"
               weight: 1
-      initContainers:
-        - name: volume-mount-fix
-          image: docker.io/busybox:stable
-          imagePullPolicy: Always
-          command: ["sh", "-c", "/bin/chmod -R 777 /usr/share/elasticsearch/data"]
-          volumeMounts:
-            - name: elasticsearch-storage
-              mountPath: /usr/share/elasticsearch/data
-              subPath: data
-          securityContext:
-            allowPrivilegeEscalation: true
-            privileged: true
-            runAsGroup: 1000
-            runAsUser: 1000
-            capabilities:
-             drop:
-               - ALL
-             add:
-               - CHOWN
       containers:
         - image: docker.io/saidsef/elasticsearch:latest
           imagePullPolicy: Always
@@ -65,6 +46,13 @@ spec:
             - protocol: TCP
               containerPort: 9300
               name: cluster
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /usr/bin/curl
+                  - -XPOST
+                  - http://127.0.0.1:9200/_flush
           livenessProbe:
             exec:
               command:
@@ -108,7 +96,7 @@ spec:
           imagePullPolicy: IfNotPresent
           name: prometheus
           args:
-          - '--es.uri=http://localhost:9200'
+          - '--es.uri=http://127.0.0.1:9200'
           - '--es.all'
           - '--es.indices'
           - '--es.snapshots'
