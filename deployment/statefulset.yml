@@ -9,6 +9,7 @@ metadata:
 spec:
   serviceName: "elasticsearch"
   podManagementPolicy: "Parallel"
+  revisionHistoryLimit: 1
   replicas: 1
   selector:
     matchLabels:
