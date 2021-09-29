@@ -13,3 +13,6 @@ images:
 - name: prometheus
   newName: quay.io/prometheuscommunity/elasticsearch-exporter:latest
   newTag: latest
+- name: busybox
+  newName: docker.io/busybox
+  newTag: stable
