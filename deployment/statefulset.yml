@@ -101,6 +101,8 @@ spec:
           - '--es.indices'
           - '--es.snapshots'
           - '--es.shards'
+          - '--es.ssl-skip-verify'
+          - '--es.timeout=3s'
           ports:
             - protocol: TCP
               containerPort: 9114
@@ -124,7 +126,7 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "50m"
             limits:
               memory: "512Mi"
