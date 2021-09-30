@@ -88,6 +88,7 @@ spec:
              add:
                - NET_BIND_SERVICE
                - SYS_TIME
+               - RLIMIT_NPROC
           volumeMounts:
             - name: elasticsearch-storage
               mountPath: /usr/share/elasticsearch/data
