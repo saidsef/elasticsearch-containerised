@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.23
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.5.2
 
 LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 LABEL description="Elasticsearch with plugins"
