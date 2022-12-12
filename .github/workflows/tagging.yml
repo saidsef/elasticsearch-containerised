@@ -5,7 +5,7 @@ on:
       - CI
     types:
       - completed
-    branch:
+    branches:
       - main
     paths:
       - "deployment/*"
@@ -26,7 +26,7 @@ jobs:
       - name: Set Tag Value
         run: |
           echo "DATE=v$(echo `date +'%Y.%m'`)" >> $GITHUB_ENV
-          echo "CHANGELOG=`git log --oneline $(git describe --tags v$(echo `date +'%Y.%m'`) --abbrev=0 @^ | head -n 1)..@`" >> $GITHUB_ENV
+          echo "CHANGELOG=`git log --oneline $(git describe --tags @ --abbrev=0 @^ | head -n 1)..@`" >> $GITHUB_ENV
       - name: Create Tag
         uses: actions/github-script@v6
         if: ${{ env.DATE }}
@@ -53,6 +53,7 @@ jobs:
                 repo: context.repo.repo,
                 ref: "tags/${{ env.DATE }}",
                 message: "${{ env.CHANGELOG }}",
-                sha: context.sha
+                sha: context.sha,
+                force: true
               });
             }
