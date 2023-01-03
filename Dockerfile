@@ -20,7 +20,6 @@ ENV xpack.ml.enabled=true
 ENV xpack.monitoring.collection.enabled=true
 ENV xpack.monitoring.enabled=true
 ENV xpack.security.enabled=false
-ENV xpack.security.autoconfiguration.enabled=false
 ENV xpack.watcher.enabled=true
 ENV xpack.monitoring.exporters.default_local.type=local
 
