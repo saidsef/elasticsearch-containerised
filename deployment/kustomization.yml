@@ -9,13 +9,7 @@ resources:
 images:
 - name: elasticsearch
   newName: docker.io/saidsef/elasticsearch
-  newTag: latest
-- name: prometheus
-  newName: docker.io/bitnami/elasticsearch-exporter
-  newTag: "1"
-- name: busybox
-  newName: docker.io/busybox
-  newTag: stable
+  newTag: v2023.01
 
 commonAnnotations:
   app.kubernetes.io/name: elasticsearch

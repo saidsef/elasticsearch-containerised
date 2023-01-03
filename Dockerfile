@@ -7,7 +7,7 @@ LABEL description="Elasticsearch with plugins"
 ENV bootstrap.memory_lock=true
 ENV cluster.name=spot
 ENV discovery.type=single-node
-ENV ES_JAVA_OPTS="-Xms3g -Xmx3g"
+ENV ES_JAVA_OPTS="-Xms3g -Xmx3g -XX:UseAVX=0"
 ENV http.compression_level=9
 ENV http.compression=true
 ENV http.cors.enabled=true
@@ -20,6 +20,7 @@ ENV xpack.ml.enabled=true
 ENV xpack.monitoring.collection.enabled=true
 ENV xpack.monitoring.enabled=true
 ENV xpack.security.enabled=false
+ENV xpack.security.autoconfiguration.enabled=false
 ENV xpack.watcher.enabled=true
 ENV xpack.monitoring.exporters.default_local.type=local
 

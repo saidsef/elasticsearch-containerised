@@ -15,22 +15,21 @@ spec:
       app: elasticsearch
   template:
     metadata:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9114"
-        prometheus.io/path: "/metrics"
       labels:
         name: elasticsearch
         app: elasticsearch
     spec:
-      shareProcessNamespace: true
-      terminationGracePeriodSeconds: 60
       securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-        runAsGroup: 1000
         seccompProfile:
           type: RuntimeDefault
+      automountServiceAccountToken: false
+      shareProcessNamespace: false
+      terminationGracePeriodSeconds: 60
+      enableServiceLinks: false
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -42,7 +41,7 @@ spec:
                       - "amd64"
               weight: 1
       containers:
-        - image: docker.io/saidsef/elasticsearch:latest
+        - image: docker.io/saidsef/elasticsearch:v2023.01
           imagePullPolicy: Always
           name: elasticsearch
           ports:
@@ -100,55 +99,6 @@ spec:
               mountPath: /tmp
               subPath: tmp
               readOnly: false
-        - image: docker.io/bitnami/elasticsearch-exporter:1
-          imagePullPolicy: IfNotPresent
-          name: prometheus
-          args:
-          - '--es.uri=http://127.0.0.1:9200'
-          - '--es.all'
-          - '--es.indices'
-          - '--es.snapshots'
-          - '--es.shards'
-          - '--es.ssl-skip-verify'
-          - '--es.timeout=3s'
-          ports:
-            - protocol: TCP
-              containerPort: 9114
-              name: prometheus
-          livenessProbe:
-            exec:
-              command:
-                - pgrep
-                - elasticsearch_exporter
-            initialDelaySeconds: 10
-            periodSeconds: 3
-            successThreshold: 1
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              port: prometheus
-              path: /health
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            successThreshold: 1
-            timeoutSeconds: 5
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "50m"
-            limits:
-              memory: "512Mi"
-              cpu: "100m"
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            capabilities:
-             drop:
-               - ALL
-             add:
-               - NET_BIND_SERVICE
       volumes:
         - name: storage
           emptyDir:
