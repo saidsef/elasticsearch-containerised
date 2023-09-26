@@ -8,6 +8,7 @@ This will run Elasticsearch in a single node via `env` variable baked into the c
 
 ## Installed Plugins list
 
+- repository-gcs
 - repository-s3
 - discovery-ec2
 - mapper-size
