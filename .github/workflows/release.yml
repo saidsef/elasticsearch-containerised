@@ -7,8 +7,6 @@ on:
       - main
     types:
       - completed
-    paths:
-      - "deployment/*"
   workflow_dispatch:
 
 jobs:

@@ -7,8 +7,6 @@ on:
       - completed
     branches:
       - main
-    paths:
-      - "deployment/*"
   workflow_dispatch:
 
 env:
