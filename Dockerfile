@@ -1,8 +1,11 @@
 # https://www.elastic.co/guide/en/elasticsearch/reference/6.8/docker.html
 FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.23
 
-LABEL maintainer="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
-LABEL description="Elasticsearch with plugins"
+LABEL org.opencontainers.image.authors="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
+LABEL org.opencontainers.image.description="Elasticsearch 6.8 with plugins"
+LABEL org.opencontainers.image.title="Elaticsearch 6.8 with plugins"
+LABEL org.opencontainers.image.url="docker.io/saidsef/elasticsearch:latest"
+LABEL org.opencontainers.image.documentation="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.0.html"
 
 ENV bootstrap.memory_lock=true
 ENV cluster.name=spot
