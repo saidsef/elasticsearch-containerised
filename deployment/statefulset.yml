@@ -46,7 +46,7 @@ spec:
                       - "amd64"
               weight: 1
       containers:
-        - image: docker.io/saidsef/elasticsearch:v2023.01
+        - image: docker.io/saidsef/elasticsearch:v2023.12
           imagePullPolicy: Always
           name: elasticsearch
           ports:
