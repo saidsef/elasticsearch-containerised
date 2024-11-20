@@ -1,5 +1,5 @@
 # https://www.elastic.co/guide/en/elasticsearch/reference/6.8/docker.html
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.23
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.16.0
 
 LABEL org.opencontainers.image.authors="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 LABEL org.opencontainers.image.description="Elasticsearch 6.8 with plugins"
