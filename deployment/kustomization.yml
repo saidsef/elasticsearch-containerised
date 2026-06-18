@@ -9,8 +9,17 @@ resources:
 images:
 - name: elasticsearch
   newName: docker.io/saidsef/elasticsearch
-  newTag: v2023.01
+  newTag: v2026.06
 
-commonAnnotations:
-  app.kubernetes.io/name: elasticsearch
-  app.kubernetes.io/part-of: elasticsearch
+labels:
+- pairs:
+    app.kubernetes.io/name: elasticsearch
+  includeSelectors: true
+- pairs:
+    app.kubernetes.io/instance: elasticsearch
+    app.kubernetes.io/version: "6.8"
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: elasticsearch
+    app.kubernetes.io/managed-by: kustomize
+  includeSelectors: false
+  includeTemplates: true

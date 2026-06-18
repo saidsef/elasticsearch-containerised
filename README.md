@@ -12,6 +12,17 @@ A Prometheus metrics endpoint is exposed at `:9404/metrics` via the bundled [`jm
 
 The Kubernetes Service exposes port `9404` and the pod carries `prometheus.io/scrape` annotations for auto-discovery.
 
+## Upgrading
+
+The StatefulSet and Service selectors now use the standard `app.kubernetes.io/name: elasticsearch` label. `.spec.selector` is immutable on a StatefulSet, so existing clusters running the legacy `app: elasticsearch` selector must be recreated:
+
+```
+kubectl delete sts elasticsearch --cascade=orphan
+kubectl apply -k deployment/
+```
+
+`--cascade=orphan` keeps the running pods (and their `emptyDir` storage) in place while the StatefulSet object is replaced; the new StatefulSet adopts the existing pods on rollout.
+
 ## Installed Plugins list
 
 - repository-gcs
