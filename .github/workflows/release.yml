@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Fetch remote tags
         run: git fetch origin +refs/tags/*:refs/tags/*
       - name: Set Tag Value
@@ -26,7 +26,7 @@ jobs:
           echo "TAG=$(echo `git tag -l ${DATE}`)" >> $GITHUB_ENV
           echo "CHANGELOG=`git log --oneline $(git describe --tags @ --abbrev=0 @^ | head -n 1)..@ --pretty=format:"%h %an %s"`" >> $GITHUB_ENV
       - name: Create Release
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         id: release
         if: ${{ env.TAG }}
         with:

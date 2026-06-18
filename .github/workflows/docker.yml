@@ -27,18 +27,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Set Tag Name
       run: |
         echo "TAG=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
         echo "DATE=v$(echo `date +'%Y.%m'`)" >> $GITHUB_ENV
     - name: Login to DockerHub
-      uses: docker/login-action@v3 
+      uses: docker/login-action@v4 
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build and push Docker image - (TAG)
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       env:
         DOCKER_BUILDKIT: 1
       with:
@@ -48,7 +48,7 @@ jobs:
         push: true
         tags: docker.io/saidsef/elasticsearch:${{ env.TAG == 'main' && 'latest' || env.TAG }}
     - name: Build and push Docker image - (DATE)
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       if: ${{ contains(github.ref, 'main') }}
       env:
         DOCKER_BUILDKIT: 1
@@ -72,7 +72,7 @@ jobs:
         template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
     - name: Upload Trivy scan results
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@v4
       with:
         sarif_file: 'trivy-results.sarif'
 
@@ -82,7 +82,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     steps:
     - name: Auto Approve PR
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       with:
        github-token: ${{ github.token }}
        script: |
@@ -98,9 +98,9 @@ jobs:
   #   if: ${{ github.event_name == 'pull_request' }}
   #   steps:
   #   - name: Check out repository code
-  #     uses: actions/checkout@v4
+  #     uses: actions/checkout@v6
   #   - name: Auto merge PR
-  #     uses: actions/github-script@v7
+  #     uses: actions/github-script@v9
   #     with:
   #       github-token: ${{ github.token }}
   #       script: |
