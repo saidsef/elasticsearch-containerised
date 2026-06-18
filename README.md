@@ -6,6 +6,12 @@ Elasticsearch is a distributed, RESTful search and analytics engine capable of s
 
 This will run Elasticsearch in a single node via `env` variable baked into the container, we can run the container service via `docker run` command or in Kubernetes `kubectl apply -k deployment/`.
 
+## Metrics
+
+A Prometheus metrics endpoint is exposed at `:9404/metrics` via the bundled [`jmx_prometheus_javaagent`](https://github.com/prometheus/jmx_exporter). These are JVM-level metrics (heap, GC, threads), not Elasticsearch domain metrics.
+
+The Kubernetes Service exposes port `9404` and the pod carries `prometheus.io/scrape` annotations for auto-discovery.
+
 ## Installed Plugins list
 
 - repository-gcs

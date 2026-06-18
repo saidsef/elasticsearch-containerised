@@ -18,6 +18,10 @@ spec:
       labels:
         name: elasticsearch
         app: elasticsearch
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9404"
+        prometheus.io/path: "/metrics"
     spec:
       securityContext:
         fsGroup: 1000
@@ -56,6 +60,9 @@ spec:
             - protocol: TCP
               containerPort: 9300
               name: cluster
+            - protocol: TCP
+              containerPort: 9404
+              name: metrics
           lifecycle:
             preStop:
               exec:
