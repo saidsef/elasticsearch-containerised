@@ -31,7 +31,6 @@ RUN cd /usr/share/elasticsearch \
     && bin/elasticsearch-plugin install -b analysis-icu \
     && bin/elasticsearch-plugin install -b analysis-phonetic \
     && bin/elasticsearch-plugin install -b discovery-ec2 \
-    && bin/elasticsearch-plugin install -b discovery-file \
     && bin/elasticsearch-plugin install -b ingest-attachment \
     && bin/elasticsearch-plugin install -b mapper-annotated-text \
     && bin/elasticsearch-plugin install -b mapper-murmur3 \
