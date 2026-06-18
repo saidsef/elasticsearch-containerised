@@ -64,6 +64,13 @@ spec:
                   - /usr/bin/curl
                   - -XPOST
                   - http://127.0.0.1:9200/_flush
+          startupProbe:
+            tcpSocket:
+              port: 9200
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 30
+            timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
               port: 9200
