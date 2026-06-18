@@ -4,5 +4,10 @@ ssl: false
 lowercaseOutputName: true
 lowercaseOutputLabelNames: true
 
+whitelistObjectNames:
+  - "java.lang:*"
+  - "java.nio:*"
+
 rules:
-- pattern: ".*"
+  - pattern: ".*"
+    cache: true
