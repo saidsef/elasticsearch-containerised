@@ -3,21 +3,15 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: elasticsearch
-  labels:
-    name: elasticsearch
-    app: elasticsearch
 spec:
   serviceName: "elasticsearch"
   podManagementPolicy: "Parallel"
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: elasticsearch
+      app.kubernetes.io/name: elasticsearch
   template:
     metadata:
-      labels:
-        name: elasticsearch
-        app: elasticsearch
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9404"
@@ -50,7 +44,7 @@ spec:
                       - "amd64"
               weight: 1
       containers:
-        - image: docker.io/saidsef/elasticsearch:v2023.12
+        - image: docker.io/saidsef/elasticsearch:v2026.06
           imagePullPolicy: Always
           name: elasticsearch
           ports:
