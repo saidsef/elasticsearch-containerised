@@ -7,7 +7,8 @@ LABEL org.opencontainers.image.title="Elaticsearch 6.8 with plugins"
 LABEL org.opencontainers.image.url="docker.io/saidsef/elasticsearch:latest"
 LABEL org.opencontainers.image.documentation="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.0.html"
 
-ENV bootstrap.memory_lock=true \
+ENV JMX_EXPORTER_VERSION=0.20.0 \
+    bootstrap.memory_lock=true \
     cluster.name=spot \
     discovery.type=single-node \
     ES_JAVA_OPTS="-Xms1g -Xmx1g -XX:UseAVX=0" \
@@ -30,12 +31,20 @@ RUN cd /usr/share/elasticsearch \
     && bin/elasticsearch-plugin install -b analysis-icu \
     && bin/elasticsearch-plugin install -b analysis-phonetic \
     && bin/elasticsearch-plugin install -b discovery-ec2 \
-    && bin/elasticsearch-plugin install -b discovery-file \
     && bin/elasticsearch-plugin install -b ingest-attachment \
     && bin/elasticsearch-plugin install -b mapper-annotated-text \
     && bin/elasticsearch-plugin install -b mapper-murmur3 \
     && bin/elasticsearch-plugin install -b mapper-size \
     && bin/elasticsearch-plugin install -b repository-s3 \
     && bin/elasticsearch-plugin install -b repository-gcs
+
+RUN curl -fsSL -o /usr/share/elasticsearch/jmx_prometheus_javaagent.jar \
+      "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/${JMX_EXPORTER_VERSION}/jmx_prometheus_javaagent-${JMX_EXPORTER_VERSION}.jar"
+
+COPY --chown=1000:0 conf/jvm.options /usr/share/elasticsearch/config/jvm.options
+COPY --chown=1000:0 conf/prometheus-jmx-config.yaml /usr/share/elasticsearch/config/prometheus-jmx-config.yaml
+COPY --chown=1000:0 conf/prometheus-jmx.policy /usr/share/elasticsearch/config/prometheus-jmx.policy
+
+EXPOSE 9404
 
 USER elasticsearch

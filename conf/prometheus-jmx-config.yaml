@@ -1,0 +1,13 @@
+---
+startDelaySeconds: 0
+ssl: false
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+whitelistObjectNames:
+  - "java.lang:*"
+  - "java.nio:*"
+
+rules:
+  - pattern: ".*"
+    cache: true

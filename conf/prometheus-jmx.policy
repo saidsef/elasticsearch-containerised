@@ -1,0 +1,7 @@
+// Java Security Manager grant for the Prometheus JMX exporter javaagent.
+// Elasticsearch installs a Security Manager; without this grant the agent's scrape
+// handler is denied MBean access and the /metrics endpoint returns an empty reply.
+// Scoped to the agent jar's codebase so Elasticsearch's own sandbox stays intact.
+grant codeBase "file:/usr/share/elasticsearch/jmx_prometheus_javaagent.jar" {
+  permission java.security.AllPermission;
+};
