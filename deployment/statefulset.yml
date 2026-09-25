@@ -47,6 +47,13 @@ spec:
         - image: docker.io/saidsef/elasticsearch:v2026.06
           imagePullPolicy: Always
           name: elasticsearch
+          env:
+            - name: ELASTICSEARCH_BIND_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: ES_JAVA_OPTS
+              value: "-Xms1g -Xmx1g -Djava.io.tmpdir=/tmp"
           ports:
             - protocol: TCP
               containerPort: 9200
@@ -90,11 +97,11 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              memory: "4Gi"
-              cpu: "250m"
+              memory: "2Gi"
+              cpu: "100m"
             limits:
-              memory: "4Gi"
-              cpu: "500m"
+              memory: "2Gi"
+              cpu: "150m"
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
