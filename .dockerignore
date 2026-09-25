@@ -1,7 +1,6 @@
-# files and/or folders to ginore
+# files and/or folders to ignore
 .git/
 .github/
 deployment/
-*.md
 **/*.md
 *.swp
