@@ -44,7 +44,7 @@ spec:
                       - "amd64"
               weight: 1
       containers:
-        - image: docker.io/saidsef/elasticsearch:v2026.06
+        - image: docker.io/saidsef/elasticsearch:v2026.09
           imagePullPolicy: Always
           name: elasticsearch
           env:
@@ -118,10 +118,8 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             capabilities:
-             drop:
-               - ALL
-             add:
-               - NET_BIND_SERVICE
+              drop:
+                - ALL
           volumeMounts:
             - name: storage
               mountPath: /usr/share/elasticsearch/data

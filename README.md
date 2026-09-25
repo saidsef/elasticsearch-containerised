@@ -27,7 +27,6 @@ kubectl apply -k deployment/
 
 - repository-gcs
 - repository-s3
-- discovery-ec2
 - mapper-size
 - mapper-murmur3
 - mapper-annotated-text

@@ -4,7 +4,7 @@ ssl: false
 lowercaseOutputName: true
 lowercaseOutputLabelNames: true
 
-whitelistObjectNames:
+includeObjectNames:
   - "java.lang:*"
   - "java.nio:*"
 

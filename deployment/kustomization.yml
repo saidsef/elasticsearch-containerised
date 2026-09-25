@@ -7,9 +7,8 @@ resources:
 - service.yml
 
 images:
-- name: elasticsearch
-  newName: docker.io/saidsef/elasticsearch
-  newTag: v2026.06
+- name: docker.io/saidsef/elasticsearch
+  newTag: v2026.09
 
 labels:
 - pairs:
