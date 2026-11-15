@@ -1,0 +1,32 @@
+site_name: elasticsearch-containerised
+repo_url: https://github.com/saidsef/elasticsearch-containerised
+strict: true
+validation:
+  anchors: warn
+theme:
+  name: material
+  palette:
+    primary: teal
+  features:
+  - content.code.copy
+  - content.tabs.link
+markdown_extensions:
+- codehilite
+- admonition
+- tables
+- toc:
+    permalink: true
+    toc_depth: 3
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Overview: README.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Versions: versions.md
+  - Upgrading: upgrading.md

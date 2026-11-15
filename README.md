@@ -1,60 +1,39 @@
-# Elasticsearch - Containerised [![CI](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/docker.yml/badge.svg)](#plugins) [![Tagging](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/tagging.yml/badge.svg)](#plugins) [![Release](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/release.yml/badge.svg)](#plugins)
+# Elasticsearch - Containerised [![CI](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/docker.yml/badge.svg)](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/docker.yml) [![Tagging](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/tagging.yml/badge.svg)](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/tagging.yml) [![Release](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/release.yml/badge.svg)](https://github.com/saidsef/elasticsearch-containerised/actions/workflows/release.yml)
 
-Elasticsearch is a distributed, RESTful search and analytics engine capable of solving a growing number of use cases. As the heart of the Elastic Stack, it centrally stores your data so you can discover the expected and uncover the unexpected.
+Elasticsearch is a distributed search and analytics engine with a REST API, and the centre of the Elastic Stack.
 
->This default distribution is governed by the Elastic License, and includes the [full set of free features](https://www.elastic.co/subscriptions).
+> The Elastic License covers this default distribution, which includes the [full set of free features](https://www.elastic.co/subscriptions).
 
-This will run Elasticsearch in a single node via `env` variable baked into the container, we can run the container service via `docker run` command or in Kubernetes `kubectl apply -k deployment/`.
+This repository builds a Docker image that runs Elasticsearch as a single node, with its settings in environment variables. The Kustomize manifests in `deployment/` run the image on Kubernetes as a StatefulSet.
 
-## Versions
+## Quick start
 
-`main`, `latest` and `v2026.11` run Elasticsearch 9.5.5. Elastic's [end-of-life table](https://www.elastic.co/support/eol) no longer lists Elasticsearch 6.8. To stay on 6.8, pin git tag `v2026.09` and image `docker.io/saidsef/elasticsearch:v2026.09`, the last 6.8 release.
-
-| Elasticsearch | Docker image tags | Git tags |
-|---|---|---|
-| 9.5.5 | `latest`, `v2026.11` | `v2026.11` |
-| 6.8.23 | `v2026.09`, `v2026.06`, `v2024.10`, `v2024.06`, `v2023.12`, `v2023.09`, `v2023.02`, `v2023.01` | `v2026.09`, `v2026.06`, `v2024.10`, `v2024.06`, `v2023.12`, `v2023.09`, `v2023.02`, `v2023.01`, `v2022.12`, `v2022.11`, `v2022.10`, `v2022.01` |
-| 6.8.18 | `v2021.09` | `v2021.08`, `v8` |
-| 6.8.6 to 6.8.20 | None | `v2021.10`, `v2021.09`, `v7`, `v6`, `v5`, `v4`, `v3`, `v1.0` |
-| 8.17.0 | None | `v2026.04`, `v2025.11`, `v2025.09`, `v2025.08`, `v2024.12` |
-
-- The 8.17.0 git tags change only the Dockerfile. Docker Hub does not have an image for them, and their manifests deploy image `v2023.01`, which runs 6.8.23.
-- Image `v2021.09` dates from 9 September 2021 and runs 6.8.18. Git tag `v2021.09` points at a commit from 30 September that moved to 6.8.19.
-- The repository has never published Elasticsearch 5.
-- Each merge to `main` builds `latest` and the current month's `vYYYY.MM` image, and moves the git tag of the same name. A monthly tag can change until the month ends.
-
-## Metrics
-
-The image does not expose Prometheus metrics. The [`jmx_prometheus_javaagent`](https://github.com/prometheus/jmx_exporter) 1.6.0 fails on Elasticsearch 9.5.5 with `NoClassDefFoundError: com/sun/net/httpserver/Authenticator`, and the node does not start.
-
-## Upgrading
-
-### From 6.8
-
-Elasticsearch 9 cannot open indices created in 6.8. It restores 6.8 snapshots only as archive indices, which the free licence does not allow. Copy the data from the 6.8 cluster with reindex from remote.
-
-- `node.processors` replaces `processors`. Elasticsearch 9 ignores the old variable.
-- `node.ingest` and `xpack.monitoring.enabled` are removed, because Elasticsearch 9 refuses to start with them.
-- Port `9404` and the `prometheus.io` annotations are removed.
-
-### Selector labels
-
-The StatefulSet and Service selectors now use the standard `app.kubernetes.io/name: elasticsearch` label. `.spec.selector` is immutable on a StatefulSet, so existing clusters running the legacy `app: elasticsearch` selector must be recreated:
-
-```
-kubectl delete sts elasticsearch --cascade=orphan
-kubectl apply -k deployment/
+```sh
+docker run -d --name elasticsearch -p 9200:9200 docker.io/saidsef/elasticsearch:latest
+curl 'http://localhost:9200/_cat/health?v'
 ```
 
-`--cascade=orphan` keeps the running pods (and their `emptyDir` storage) in place while the StatefulSet object is replaced; the new StatefulSet adopts the existing pods on rollout.
+To deploy to Kubernetes from a clone of the repository:
 
-## Plugins
+```sh
+kubectl create namespace elasticsearch
+kubectl apply -n elasticsearch -k deployment/
+```
 
-The image does not install any plugins. Elasticsearch 9 ships the S3 and GCS snapshot repositories and the attachment processor as built-in modules.
+## Documentation
+
+[Read the Docs](https://elasticsearch-containerised.readthedocs.io/en/latest/) hosts the same pages.
+
+| Page | Contents |
+|------|----------|
+| [Installation](./docs/installation.md) | Requirements, Docker, Kubernetes, health checks |
+| [Configuration](./docs/configuration.md) | Image settings, StatefulSet settings, ports, probes, resources, storage, scheduling, security, plugins, metrics |
+| [Versions](./docs/versions.md) | Elasticsearch version behind each image tag and git tag, and how CI tags images |
+| [Upgrading](./docs/upgrading.md) | Upgrades from Elasticsearch 6.8, and the change of selector labels |
 
 ## Source
 
-Our latest and greatest source of Jenkins can be found on [GitHub](#source). Fork us!
+The latest source of *Elasticsearch - Containerised* is on [GitHub](https://github.com/saidsef/elasticsearch-containerised). [Fork us](https://github.com/saidsef/elasticsearch-containerised/fork)!
 
 ## Contributing
 

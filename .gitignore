@@ -3,3 +3,6 @@
 *.swp
 temp/
 tmp/
+
+# MkDocs build output
+site/
