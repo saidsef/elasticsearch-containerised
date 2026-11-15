@@ -8,7 +8,7 @@ resources:
 
 images:
 - name: docker.io/saidsef/elasticsearch
-  newTag: v2026.09
+  newTag: v2026.11
 
 labels:
 - pairs:
@@ -16,7 +16,7 @@ labels:
   includeSelectors: true
 - pairs:
     app.kubernetes.io/instance: elasticsearch
-    app.kubernetes.io/version: "6.8"
+    app.kubernetes.io/version: "9.5"
     app.kubernetes.io/component: database
     app.kubernetes.io/part-of: elasticsearch
     app.kubernetes.io/managed-by: kustomize
