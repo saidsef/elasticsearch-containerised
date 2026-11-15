@@ -39,7 +39,7 @@ spec:
                       - "amd64"
               weight: 1
       containers:
-        - image: docker.io/saidsef/elasticsearch:es9
+        - image: docker.io/saidsef/elasticsearch:v2026.11
           imagePullPolicy: Always
           name: elasticsearch
           env:
@@ -80,7 +80,7 @@ spec:
               port: 9200
             periodSeconds: 10
             successThreshold: 1
-            failureThreshold: 30
+            failureThreshold: 60
             timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
