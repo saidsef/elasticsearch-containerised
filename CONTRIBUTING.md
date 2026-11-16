@@ -7,8 +7,8 @@ Please note we have a code of conduct, please follow it in all your interactions
 ## Pull Request Process
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-2. Update the README.md with details of changes to the interface, this includes new environment variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers is managed by the GitHub Actions CI workflow `tagging.yml`
+2. Update the pages under `docs/` with details of changes to the interface, such as new environment variables, exposed ports, useful file locations and container parameters.
+3. The CI workflow builds `latest` and an image for the current month, tagged `vYYYY.MM`, from each merge to `main` that changes the image. [Release tags](./docs/versions.md#release-tags) describes the git tags and releases.
 4. You may merge the Pull Request in once you have the sign-off of from the project team, or if you do not have permission to do that, you may request a reviewer to merge it for you.
 
 ## Code of Conduct
