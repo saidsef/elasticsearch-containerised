@@ -55,8 +55,6 @@ spec:
               value: "false"
             - name: xpack.ml.enabled
               value: "false"
-            - name: xpack.monitoring.collection.enabled
-              value: "false"
             - name: action.destructive_requires_name
               value: "true"
             - name: indices.fielddata.cache.size

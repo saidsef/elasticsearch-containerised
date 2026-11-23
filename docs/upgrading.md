@@ -2,17 +2,18 @@
 
 ## Elasticsearch 6.8
 
-Elasticsearch 9 cannot open indices created in 6.8. It restores 6.8 snapshots only as archive indices, which the free licence does not allow. Copy the data from the 6.8 cluster with reindex from remote.
+Elasticsearch 9 refuses to open indices created in 6.8. It restores 6.8 snapshots only as archive indices, which need a paid licence. Copy the data from the 6.8 cluster with reindex from remote.
 
 The manifests changed for Elasticsearch 9:
 
 - The StatefulSet sets `node.processors` in place of `processors`, which Elasticsearch 9 ignores.
-- The StatefulSet no longer sets `node.ingest` or `xpack.monitoring.enabled`, because Elasticsearch 9 refuses to start with either of them.
-- The pod no longer exposes port `9404` or carries the `prometheus.io` annotations. [Metrics](./configuration.md#metrics) explains why.
+- Elasticsearch 9 refuses to start with `node.ingest` or `xpack.monitoring.enabled`. The node takes the ingest role from the default `node.roles`.
+- Elasticsearch logs a deprecation warning for `xpack.monitoring.collection.enabled` and `xpack.monitoring.exporters.default_local.type`. Elastic will remove both in a future release. The image and StatefulSet leave both at their defaults, which keep legacy monitoring collection off.
+- The pod exposes ports `9200` and `9300` only. [Metrics](./configuration.md#metrics) describes how Elasticsearch reports metrics.
 
 ## Selector labels
 
-Release `v2026.06` moved the StatefulSet and Service selectors from the legacy `app: elasticsearch` label to the standard `app.kubernetes.io/name: elasticsearch` label. Kubernetes does not allow changes to `.spec.selector` on a StatefulSet. Delete a StatefulSet created from an earlier release and create it again:
+Release `v2026.06` moved the StatefulSet and Service selectors from the legacy `app: elasticsearch` label to the standard `app.kubernetes.io/name: elasticsearch` label. Kubernetes treats `.spec.selector` on a StatefulSet as immutable. Delete a StatefulSet created from an earlier release and create it again:
 
 ```sh
 kubectl delete statefulset -n elasticsearch elasticsearch

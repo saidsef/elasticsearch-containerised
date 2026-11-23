@@ -1,6 +1,6 @@
 # Configuration
 
-The image and the StatefulSet configure Elasticsearch through environment variables. Elasticsearch reads each variable whose name contains a dot, such as `cluster.name`, as the setting of the same name, and refuses to start when the variable names a setting it does not know.
+The image and the StatefulSet configure Elasticsearch through environment variables. Elasticsearch reads each variable whose name contains a dot, such as `cluster.name`, as the setting of the same name, and refuses to start when the variable names an unknown setting.
 
 ## Image settings
 
@@ -19,9 +19,8 @@ The [Dockerfile](https://github.com/saidsef/elasticsearch-containerised/blob/mai
 | `xpack.graph.enabled` | `true` |
 | `xpack.security.enabled` | `false` |
 | `xpack.watcher.enabled` | `true` |
-| `xpack.monitoring.exporters.default_local.type` | `local` |
 
-With `discovery.type` set to `single-node`, the node elects itself master and does not join any other node. The image does not set `http.cors.allow-origin`. Elasticsearch answers status 403 to a request whose `Origin` header names another site, such as `http://example.com`. [Security](#security) describes the effect of `xpack.security.enabled`.
+With `discovery.type` set to `single-node`, the node elects itself master and forms a cluster of one. `http.cors.allow-origin` keeps its empty default. Elasticsearch answers status 403 to a request whose `Origin` header names another site, such as `http://example.com`. [Security](#security) describes the effect of `xpack.security.enabled`.
 
 ## StatefulSet settings
 
@@ -34,7 +33,6 @@ With `discovery.type` set to `single-node`, the node elects itself master and do
 | `node.processors` | `1` |
 | `bootstrap.memory_lock` | `false` |
 | `xpack.ml.enabled` | `false` |
-| `xpack.monitoring.collection.enabled` | `false` |
 | `action.destructive_requires_name` | `true` |
 | `indices.fielddata.cache.size` | `20%` |
 
@@ -70,7 +68,7 @@ Kubernetes runs the liveness and readiness probes only after the startup probe p
 
 Each pod has one `emptyDir` volume with a size limit of `3Gi`. The container mounts its `data` subdirectory at `/usr/share/elasticsearch/data` and its `tmp` subdirectory at `/tmp`.
 
-Kubernetes deletes an `emptyDir` volume with its pod. The data survives a container restart, but not the deletion or rescheduling of the pod. The kubelet evicts the pod when the volume grows past its size limit.
+Kubernetes deletes an `emptyDir` volume when it deletes or reschedules the pod. The data survives a container restart. The kubelet evicts the pod when the volume grows past its size limit.
 
 ## Shutdown
 
@@ -78,19 +76,20 @@ Before Kubernetes stops the container, a `preStop` hook runs `curl -XPOST http:/
 
 ## Scheduling
 
-- The CI workflow builds the image for `linux/amd64` only. The StatefulSet prefers `amd64` nodes but does not require them.
-- The StatefulSet does not set `replicas` and runs one pod. Every pod runs with `discovery.type` set to `single-node`, and a second replica would start a separate one-node cluster instead of joining the first.
+- The CI workflow builds the image for `linux/amd64` only. The StatefulSet prefers `amd64` nodes and accepts nodes of other architectures.
+- The StatefulSet runs one pod, the Kubernetes default for `replicas`. Every pod runs with `discovery.type` set to `single-node`. A second replica would start a separate one-node cluster.
 
 ## Security
 
-- With `xpack.security.enabled` set to `false`, Elasticsearch accepts requests without authentication and serves HTTP without TLS.
+- With `xpack.security.enabled` set to `false`, Elasticsearch accepts anonymous requests and serves plain HTTP.
 - The Service has type `ClusterIP`, which makes it reachable from inside the cluster only.
-- The pod runs as user and group 1000 without privilege escalation, drops every Linux capability and uses the `RuntimeDefault` seccomp profile. It does not mount a service account token.
+- The pod runs as user and group 1000 with the `RuntimeDefault` seccomp profile, and sets `automountServiceAccountToken` to `false`.
+- The container drops every Linux capability and sets `allowPrivilegeEscalation` to `false`.
 
 ## Plugins
 
-The image does not install any plugins. Elasticsearch 9 ships the S3 and GCS snapshot repositories and the attachment processor as built-in modules.
+The image relies on the modules built into Elasticsearch 9. They include the S3 and GCS snapshot repositories and the attachment processor.
 
 ## Metrics
 
-The image does not expose Prometheus metrics. The [`jmx_prometheus_javaagent`](https://github.com/prometheus/jmx_exporter) 1.6.0 fails on Elasticsearch 9.5.5 with `NoClassDefFoundError: com/sun/net/httpserver/Authenticator`, and the node does not start.
+Elasticsearch reports metrics through its REST APIs, such as `_nodes/stats`.

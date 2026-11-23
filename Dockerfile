@@ -20,7 +20,6 @@ ENV cluster.name=spot \
     logger.deprecation.level=warn \
     xpack.graph.enabled=true \
     xpack.security.enabled=false \
-    xpack.watcher.enabled=true \
-    xpack.monitoring.exporters.default_local.type=local
+    xpack.watcher.enabled=true
 
 USER elasticsearch

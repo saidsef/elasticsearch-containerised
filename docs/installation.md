@@ -29,7 +29,7 @@ kubectl apply -n elasticsearch -k deployment/
 kubectl rollout status -n elasticsearch statefulset/elasticsearch
 ```
 
-The manifests do not set a namespace. They create a StatefulSet named `elasticsearch` with one pod, and a ClusterIP Service of the same name. [Configuration](./configuration.md) describes both.
+The manifests create a StatefulSet named `elasticsearch` with one pod, and a ClusterIP Service of the same name, in the namespace that `-n` names. [Configuration](./configuration.md) describes both.
 
 ## Health checks
 
@@ -45,4 +45,4 @@ From a second terminal:
 curl 'http://localhost:9200/_cat/health?v'
 ```
 
-The cluster reports `green` until an index has a replica. Because Elasticsearch does not place a replica on the node that holds its primary shard, an index with the default single replica turns a single-node cluster `yellow`. To keep the cluster `green`, create indices with `number_of_replicas` set to `0`.
+The cluster reports `green` until an index has a replica. Elasticsearch places each replica on a different node from its primary shard. On a single node, an index with the default single replica leaves that replica unassigned and turns the cluster `yellow`. To keep the cluster `green`, create indices with `number_of_replicas` set to `0`.
