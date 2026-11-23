@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-with-docker
-FROM docker.elastic.co/elasticsearch/elasticsearch:9.5.5
+FROM docker.elastic.co/elasticsearch/elasticsearch:9.5.7
 
 LABEL org.opencontainers.image.authors="Said Sef <saidsef@gmail.com> (saidsef.co.uk)"
 LABEL org.opencontainers.image.description="Elasticsearch 9.5 single node"
